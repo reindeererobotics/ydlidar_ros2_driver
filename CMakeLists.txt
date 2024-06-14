@@ -21,6 +21,18 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 
 ############## YDLIDAR SDK START#####################################
+# file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/certs)
+
+add_custom_target(YDLidar-SDK ALL
+    COMMAND ${CMAKE_COMMAND} -E env "CXXFLAGS=-std=c++11" ${CMAKE_COMMAND} ../YDLidar-SDK -B ${CMAKE_BINARY_DIR}/YDLidar-SDK
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}/YDLidar-SDK/
+    COMMAND sudo ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}/YDLidar-SDK/ --target install --config Release
+    # COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR}/YDLidar-SDK/ --target install --prefix ${CMAKE_INSTALL_PREFIX} 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Unpacking and building YDLidar-SDK"
+    VERBATIM
+)
+
 #find ydlidar_sdk package
 find_package(ydlidar_sdk REQUIRED)
 ############## YDLIDAR SDK END#####################################
